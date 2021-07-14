@@ -22,8 +22,8 @@ const message = document.querySelector(".message");
 // The hidden button that will appear prompting the player to play again.
 const playAgain = document.querySelector(".play-again");
 
-// Magnolia is your starting word to test out the game
-const word = "magnolia"
+// Magnolia was the starting word to test out the game but I changed to hibiscus
+const word = "hibiscus"
 
 // Adding new var with empty array 
 const guessedLetters = [];
@@ -76,8 +76,50 @@ const makeGuess = function (guess) {
  } else {
     guessedLetters.push(guess);
     console.log(guessedLetters);
+    showGuessedLetters();	
+    updateWordInProgress(guessedLetters);
   }
 };
+
+// Create a function to show guessed letters
+const showGuessedLetters = function () {
+  guessedLettersElement.innerHTML = "";
+  for (const letter of guessedLetters) {
+    const li = document.createElement("li");
+    li.innerText = letter;
+    guessedLettersElement.append(li);
+  }
+};
+
+// Create a Function to Update the Word in Progress
+const updateWordInProgress = function (guessedLetters) {
+  const wordUpper = word.toUpperCase();
+  const wordArray = wordUpper.split("");
+  const revealWord = [];
+  for (const letter of wordArray) {
+    if (guessedLetters.includes(letter)) {
+      revealWord.push(letter.toUpperCase());
+    }else {
+      revealWord.push("●");
+    }
+  }
+  console.log(revealWord);
+  wordInProgress.innerText = revealWord.join("");
+  playerWon();
+};
+
+// Create a Function to Check If the Player Won
+const playerWon = function () {
+  if (word.toUpperCase() === wordInProgress.innerText) {
+    message.classList.add("win");
+    message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+  }
+};
+
+
+
+
+
 
 
   
